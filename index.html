@@ -46,9 +46,9 @@
     <form method="dialog" class="settings-panel">
       <div class="dialog-head"><div><h2>Настройки</h2></div><button class="icon-btn close-dialog" aria-label="Закрыть">×</button></div>
       <p class="hint">Добавьте Groq API-ключи. Приложение сохранит их только в этом браузере. Не публикуйте их и отзывайте, если потеряете телефон.</p>
-      <label class="key-label">Основной ключ<input id="api-key-1" type="password" autocomplete="off" placeholder="gsk_…"></label>
-      <label class="key-label">Резервный ключ<input id="api-key-2" type="password" autocomplete="off" placeholder="gsk_…"></label>
-      <p class="small-warning">Резервный ключ используется при ошибке авторизации или временном сбое. При ответе «лимит исчерпан» приложение остановится и не будет переключать аккаунт для обхода квоты.</p>
+      <label class="key-label">Основной ключ · GPT-OSS 120B<input id="api-key-1" type="password" autocomplete="off" placeholder="gsk_…"></label>
+      <label class="key-label">Резервный ключ · GPT-OSS 20B<input id="api-key-2" type="password" autocomplete="off" placeholder="gsk_…"></label>
+      <p class="small-warning">Для разбора записей основной ключ использует GPT-OSS 120B, резервный — GPT-OSS 20B. При ошибке доступа к модели или временном сбое приложение пробует резервный ключ. При исчерпании лимита (429) приложение тоже пробует резервный ключ.</p>
       <div class="setting-actions"><button class="button button-light" id="show-keys" type="button">Показать</button><button class="button button-dark" id="save-settings" type="button">Сохранить</button></div>
       <p id="settings-status" class="settings-status"></p>
       <p class="small-warning">Groq рекомендует не хранить API-ключи в клиентском веб-приложении. Здесь ключ хранится на телефоне для личного прототипа; если сайт или устройство скомпрометированы, ключ может раскрыться.</p>
