@@ -25,6 +25,7 @@ async function groq(path,init={}){
       if(res.status===401||res.status===403){last=new Error('AUTH');if(i<keys.length-1)continue;throw new Error('AUTH')}
       if(res.status>=500&&i<keys.length-1){last=new Error('UPSTREAM');continue}
       if(!res.ok){const detail=await res.text();let raw='';try{const payload=JSON.parse(detail);raw=payload.error?.message||payload.message||''}catch{}
+        if(path==='/chat/completions'&&i<keys.length-1&&res.status===400&&/failed_generation|failed to validate json/i.test(raw)){last=new Error('MODEL');continue}
         if(path==='/chat/completions'&&i<keys.length-1&&(res.status===400||res.status===404)&&/model|permission|access|available|not found/i.test(raw)){last=new Error('MODEL');continue}
         if(/failed to validate json/i.test(raw))throw new Error('Сервис не смог обработать ответ. Запись сохранена; повторите позже.');
         throw new Error(({400:'Сервис отклонил запрос. Повторите попытку.',401:'API-ключ не принят.',403:'У API-ключа нет доступа.',413:'Аудиозапись слишком большая.',415:'Формат аудио не поддерживается.',422:'Не удалось распознать запись.'}[res.status]||`Временная ошибка сервиса (${res.status}).`))
