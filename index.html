@@ -34,6 +34,15 @@
         </button>
       </section>
 
+      <section class="chat-panel" aria-label="Чат с журналом">
+        <div class="chat-messages" id="chat-messages" aria-live="polite" aria-relevant="additions"></div>
+        <form class="composer" id="chat-form">
+          <label class="visually-hidden" for="chat-input">Сообщение или вопрос по журналу</label>
+          <textarea id="chat-input" rows="1" placeholder="Сообщение или вопрос по журналу…"></textarea>
+          <button class="send-button" id="send-button" type="submit" aria-label="Отправить">➤</button>
+        </form>
+      </section>
+
       <section class="apiary-section" aria-labelledby="apiary-title">
         <div class="section-heading">
           <h1 id="apiary-title">Пасека</h1>
@@ -57,14 +66,6 @@
         <div class="entity-list" id="entities" aria-live="polite"></div>
       </section>
 
-      <section class="chat-panel" aria-label="Чат с журналом">
-        <div class="chat-messages" id="chat-messages" aria-live="polite" aria-relevant="additions"></div>
-        <form class="composer" id="chat-form">
-          <label class="visually-hidden" for="chat-input">Сообщение или вопрос по журналу</label>
-          <textarea id="chat-input" rows="1" placeholder="Сообщение или вопрос по журналу…"></textarea>
-          <button class="send-button" id="send-button" type="submit" aria-label="Отправить">➤</button>
-        </form>
-      </section>
     </main>
   </div>
 
@@ -78,6 +79,22 @@
       <label class="key-label">Резервный ключ · GPT-OSS 20B<input id="api-key-2" type="password" autocomplete="off"></label>
       <button class="save-settings" id="save-settings" type="button">Сохранить</button>
       <p id="settings-status" class="settings-status" role="status"></p>
+    </form>
+  </dialog>
+  <dialog id="entity-actions-dialog">
+    <div class="settings-panel">
+      <div class="dialog-head"><h2 id="entity-action-title">Объект</h2><button class="settings-close" data-close-actions aria-label="Закрыть">×</button></div>
+      <button class="save-settings" id="edit-entity">Редактировать</button>
+      <button class="delete-entity" id="delete-entity">Удалить</button>
+    </div>
+  </dialog>
+  <dialog id="entity-edit-dialog">
+    <form class="settings-panel" id="entity-edit-form">
+      <div class="dialog-head"><h2 id="entity-edit-title">Изменить объект</h2><button class="settings-close" type="button" data-close-edit aria-label="Закрыть">×</button></div>
+      <label class="key-label" for="edit-entity-type">Тип<select id="edit-entity-type"><option value="family">Семья</option><option value="nucleus">Отводок</option></select></label>
+      <label class="key-label" for="edit-entity-number">Номер<input id="edit-entity-number" type="number" min="1" max="9999" inputmode="numeric"></label>
+      <label class="key-label" for="edit-entity-note">Последняя заметка<textarea id="edit-entity-note" rows="4"></textarea></label>
+      <button class="save-settings" type="submit">Сохранить</button>
     </form>
   </dialog>
   <div class="toast" id="toast" role="status"></div>
