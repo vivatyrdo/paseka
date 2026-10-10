@@ -6,3 +6,5 @@
 .method-icon svg{width:44px;height:44px;fill:none;stroke:currentColor;stroke-width:2.5;stroke-linecap:round;stroke-linejoin:round}
 
 .record-status{margin:10px 0;padding:12px;border-radius:10px;background:#fff1ef;color:#a93226;font-size:19px;font-weight:700;text-align:center}.record-status span{font-variant-numeric:tabular-nums}
+
+.history-tools{display:flex;align-items:center;gap:8px;margin-top:5px}.history-edit{width:42px;height:42px;border:1px solid var(--line);border-radius:9px;background:#eef1ee;color:var(--ink);font:700 23px Arial;cursor:pointer}.history-tools .history-audio{min-height:42px;margin:0;padding:8px 10px}

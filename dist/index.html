@@ -88,7 +88,7 @@
   <dialog id="entity-actions-dialog">
     <div class="settings-panel">
       <div class="dialog-head"><h2 id="entity-action-title">Объект</h2><button class="settings-close" data-close-actions aria-label="Закрыть">×</button></div>
-      <button class="save-settings" id="edit-entity">Редактировать</button>
+      <button class="save-settings" id="edit-entity">Основная информация</button>
       <button class="delete-entity" id="delete-entity">Удалить</button>
     </div>
   </dialog>
@@ -97,8 +97,20 @@
       <div class="dialog-head"><h2 id="entity-edit-title">Изменить объект</h2><button class="settings-close" type="button" data-close-edit aria-label="Закрыть">×</button></div>
       <label class="key-label" for="edit-entity-type">Тип<select id="edit-entity-type"><option value="family">Семья</option><option value="nucleus">Отводок</option></select></label>
       <label class="key-label" for="edit-entity-number">Номер<input id="edit-entity-number" type="number" min="1" max="9999" inputmode="numeric"></label>
-      <label class="key-label" for="edit-entity-note">Последняя заметка<textarea id="edit-entity-note" rows="4"></textarea></label>
+      <label class="key-label" for="edit-queen-year">Год матки<input id="edit-queen-year" type="number" min="1900" max="2100" inputmode="numeric"></label>
+      <label class="key-label" for="edit-strength">Сила семьи<input id="edit-strength" type="text"></label>
+      <label class="key-label" for="edit-feed">Корм<input id="edit-feed" type="text"></label>
+      <label class="key-label" for="edit-flight">Облёт<input id="edit-flight" type="text"></label>
       <button class="save-settings" type="submit">Сохранить</button>
+    </form>
+  </dialog>
+  <dialog id="history-edit-dialog">
+    <form class="settings-panel" id="history-edit-form">
+      <div class="dialog-head"><h2>Изменить запись</h2><button class="settings-close" type="button" data-close-history aria-label="Закрыть">×</button></div>
+      <p class="history-edit-date" id="history-edit-date"></p>
+      <label class="key-label" for="history-edit-text">Текст записи<textarea id="history-edit-text" rows="7" required></textarea></label>
+      <button class="save-settings" type="submit">Сохранить запись</button>
+      <button class="delete-entity" id="delete-history" type="button">Удалить запись</button>
     </form>
   </dialog>
   <div class="toast" id="toast" role="status"></div>
