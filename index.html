@@ -34,15 +34,6 @@
         </button>
       </section>
 
-      <section class="chat-panel" aria-label="Чат с журналом">
-        <div class="chat-messages" id="chat-messages" aria-live="polite" aria-relevant="additions"></div>
-        <form class="composer" id="chat-form">
-          <label class="visually-hidden" for="chat-input">Сообщение или вопрос по журналу</label>
-          <textarea id="chat-input" rows="1" placeholder="Сообщение или вопрос по журналу…"></textarea>
-          <button class="send-button" id="send-button" type="submit" aria-label="Отправить">➤</button>
-        </form>
-      </section>
-
       <section class="apiary-section" aria-labelledby="apiary-title">
         <div class="section-heading">
           <h1 id="apiary-title">Пасека</h1>
@@ -68,6 +59,23 @@
 
     </main>
   </div>
+
+  <dialog id="input-dialog" class="input-dialog" aria-labelledby="input-title">
+    <div class="input-panel">
+      <div class="dialog-head"><h2 id="input-title">Новая запись</h2><button class="settings-close" id="input-close" type="button" aria-label="Закрыть">×</button></div>
+      <div id="input-methods" class="input-methods">
+        <button class="input-method" id="choose-voice" type="button"><span class="method-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><rect x="18" y="5" width="12" height="25" rx="6"/><path d="M12 22v2a12 12 0 0 0 24 0v-2M24 36v7m-8 0h16"/></svg></span><span>Голосом</span></button>
+        <button class="input-method" id="choose-text" type="button"><span class="method-icon" aria-hidden="true"><svg viewBox="0 0 48 48"><rect x="4" y="9" width="40" height="30" rx="4"/><path d="M10 17h2m6 0h2m6 0h2m6 0h2m6 0h2M10 24h2m6 0h2m6 0h2m6 0h2m6 0h2M10 31h14m4 0h10"/></svg></span><span>Текстом</span></button>
+      </div>
+      <div id="input-editor" hidden>
+        <p class="input-status" id="input-status" aria-live="polite">Проверьте текст перед отправкой</p>
+        <textarea id="input-text" rows="6" placeholder="Текст записи или вопрос…"></textarea>
+        <button class="voice-stop" id="voice-stop" type="button" hidden>Остановить запись <span id="input-timer">00:00</span></button>
+        <div class="input-controls"><button class="input-back" id="input-back" type="button">Назад</button><button class="save-settings" id="input-send" type="button">Отправить</button></div>
+      </div>
+      <div id="input-result" class="input-result" hidden aria-live="polite"></div>
+    </div>
+  </dialog>
 
   <dialog id="settings-dialog">
     <form method="dialog" class="settings-panel">
