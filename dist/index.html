@@ -3,55 +3,81 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-  <meta name="theme-color" content="#f5f4ec">
-  <meta name="description" content="Голосовой журнал пасеки: заметки по ульям, напоминания и поиск по истории.">
+  <meta name="theme-color" content="#f3f4f1">
+  <meta name="description" content="Голосовой журнал пасеки">
   <link rel="manifest" href="manifest.webmanifest">
   <link rel="icon" href="icon.svg" type="image/svg+xml">
   <link rel="stylesheet" href="styles.css">
   <title>Пасечный журнал</title>
 </head>
 <body>
-  <div class="shell">
+  <div class="app-shell">
     <header class="topbar">
-      <a class="brand" href="#home" aria-label="Пасечный журнал">
-        <span><b>Пасечный</b><small>ЖУРНАЛ</small></span>
-      </a>
-      <div class="top-actions"><span class="sync-state" id="connection"><i></i><span>Проверяем связь</span></span><button class="icon-btn" id="open-settings" aria-label="Настройки">⚙</button></div>
+      <a class="brand" href="#top"><b>Пасечный журнал</b></a>
+      <div class="top-actions">
+        <span class="sync-state" id="connection" role="status"><i></i><span>Проверяем связь</span></span>
+        <button class="settings-button" id="open-settings" aria-label="Настройки Groq">⚙</button>
+      </div>
     </header>
 
-    <main>
-<section class="capture-card" aria-labelledby="capture-title">
-        <div class="capture-head"><div><h2 id="capture-title">Новая запись</h2></div><span class="today" id="today"></span></div>
-        <div class="record-row"><button class="record-button" id="record-note"><span class="mic-icon">●</span><span id="record-label">Начать запись</span></button><span class="record-time" id="record-time"></span><button class="text-toggle" id="text-toggle">Ввести текст</button></div>
-        <div class="text-entry hidden" id="text-entry"><textarea id="manual-note" rows="3" placeholder="Продиктуйте или напишите заметку"></textarea><button class="button button-dark" id="save-text">Сохранить заметку</button></div>
-        <div class="recording-indicator hidden" id="recording-indicator"><span class="pulse"></span>Идёт запись <span id="live-time">00:00</span><button class="stop-button" id="stop-note">Остановить</button></div>
-        <div class="offline-note"><span>↯</span><span>Нет сети? Запись всё равно сохранится на телефоне.</span></div>
+    <main id="top">
+      <section class="voice-actions" aria-label="Голосовые действия">
+        <button class="voice-button voice-note" id="record-note" aria-pressed="false">
+          <span class="voice-dot" aria-hidden="true"></span>
+          <span class="voice-label" id="record-label">Записать в журнал</span>
+          <span class="voice-timer" id="record-time"></span>
+        </button>
+        <button class="voice-button voice-ask" id="record-question" aria-pressed="false">
+          <span class="voice-dot" aria-hidden="true"></span>
+          <span class="voice-label" id="question-label">Спросить журнал</span>
+          <span class="voice-timer" id="question-time"></span>
+        </button>
       </section>
 
-      <section class="toolbar"><div><h2>Записи</h2></div><div class="toolbar-actions"><button class="button button-light" id="load-examples">＋ <span>Пример</span></button><button class="button button-light" id="sync-now">↻ <span>Обработать очередь</span></button><button class="button button-light" id="export-data">⇩ <span>Экспорт</span></button></div></section>
-      <section class="filter-row"><label class="searchbox"><span>⌕</span><input id="search" type="search" placeholder="Найти по улью или словам"></label><select id="family-filter" aria-label="Фильтр по семье"><option value="">Все семьи</option></select><select id="month-filter" aria-label="Фильтр по месяцу"><option value="">Все даты</option></select></section>
-      <section class="records" id="records" aria-live="polite"></section>
-
-      <section class="ask-card" id="ask">
-        <div class="ask-copy"><h2>Спросить журнал</h2></div>
-        <div class="ask-controls"><button id="record-question" class="ask-mic"><span>🎙</span><b id="question-label">Задать вопрос голосом</b></button><textarea id="question-text" rows="2" placeholder="Например: что я хотел сделать в первом улье?"></textarea><button class="button button-dark ask-submit" id="ask-submit">Спросить журнал <span>→</span></button><div id="answer" class="answer hidden" aria-live="polite"></div></div>
+      <section class="apiary-section" aria-labelledby="apiary-title">
+        <div class="section-heading">
+          <h1 id="apiary-title">Пасека</h1>
+          <span class="entity-count" id="entity-count"></span>
+        </div>
+        <div class="apiary-tabs" role="tablist" aria-label="Тип объектов">
+          <button class="tab active" type="button" data-type="family" role="tab" aria-selected="true">Семьи</button>
+          <button class="tab" type="button" data-type="nucleus" role="tab" aria-selected="false">Отводки</button>
+        </div>
+        <div class="list-controls">
+          <div class="task-filters" role="group" aria-label="Фильтр заданий">
+            <button class="filter-chip active" type="button" data-filter="open">С задачами</button>
+            <button class="filter-chip" type="button" data-filter="clear">Без задач</button>
+            <button class="filter-chip" type="button" data-filter="all">Все</button>
+          </div>
+          <label class="searchbox">
+            <span aria-hidden="true">⌕</span>
+            <input id="search" type="search" placeholder="Поиск по семьям и заметкам">
+          </label>
+        </div>
+        <div class="entity-list" id="entities" aria-live="polite"></div>
       </section>
-      <section class="privacy-note"><span>⌂</span><p><b>Ваш журнал остаётся на этом телефоне.</b> Голосовые записи отправляются на распознавание только при подключении к интернету и после добавления API-ключа.</p></section>
+
+      <section class="chat-panel" aria-label="Чат с журналом">
+        <div class="chat-messages" id="chat-messages" aria-live="polite" aria-relevant="additions"></div>
+        <form class="composer" id="chat-form">
+          <label class="visually-hidden" for="chat-input">Сообщение или вопрос по журналу</label>
+          <textarea id="chat-input" rows="1" placeholder="Сообщение или вопрос по журналу…"></textarea>
+          <button class="send-button" id="send-button" type="submit" aria-label="Отправить">➤</button>
+        </form>
+      </section>
     </main>
-
-    <footer><span>ПАСЕЧНЫЙ ЖУРНАЛ · ПЕРВАЯ ВЕРСИЯ</span><button id="clear-data" class="quiet-button">Очистить данные</button></footer>
   </div>
 
   <dialog id="settings-dialog">
     <form method="dialog" class="settings-panel">
-      <div class="dialog-head"><div><h2>Настройки</h2></div><button class="icon-btn close-dialog" aria-label="Закрыть">×</button></div>
-      <p class="hint">Добавьте Groq API-ключи. Приложение сохранит их только в этом браузере. Не публикуйте их и отзывайте, если потеряете телефон.</p>
-      <label class="key-label">Основной ключ · GPT-OSS 120B<input id="api-key-1" type="password" autocomplete="off" placeholder="gsk_…"></label>
-      <label class="key-label">Резервный ключ · GPT-OSS 20B<input id="api-key-2" type="password" autocomplete="off" placeholder="gsk_…"></label>
-      <p class="small-warning">Для разбора записей основной ключ использует GPT-OSS 120B, резервный — GPT-OSS 20B. При ошибке доступа к модели или временном сбое приложение пробует резервный ключ. При исчерпании лимита (429) приложение тоже пробует резервный ключ.</p>
-      <div class="setting-actions"><button class="button button-light" id="show-keys" type="button">Показать</button><button class="button button-dark" id="save-settings" type="button">Сохранить</button></div>
-      <p id="settings-status" class="settings-status"></p>
-      <p class="small-warning">Groq рекомендует не хранить API-ключи в клиентском веб-приложении. Здесь ключ хранится на телефоне для личного прототипа; если сайт или устройство скомпрометированы, ключ может раскрыться.</p>
+      <div class="dialog-head">
+        <h2>Ключи Groq</h2>
+        <button class="settings-close" type="button" aria-label="Закрыть">×</button>
+      </div>
+      <label class="key-label">Основной ключ · GPT-OSS 120B<input id="api-key-1" type="password" autocomplete="off"></label>
+      <label class="key-label">Резервный ключ · GPT-OSS 20B<input id="api-key-2" type="password" autocomplete="off"></label>
+      <button class="save-settings" id="save-settings" type="button">Сохранить</button>
+      <p id="settings-status" class="settings-status" role="status"></p>
     </form>
   </dialog>
   <div class="toast" id="toast" role="status"></div>
