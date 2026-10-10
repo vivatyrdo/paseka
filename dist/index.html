@@ -49,7 +49,6 @@
           <div class="task-filters" role="group" aria-label="Фильтр заданий">
             <button class="filter-chip active" type="button" data-filter="all">Все</button>
             <button class="filter-chip" type="button" data-filter="open">С задачами</button>
-            <button class="filter-chip" type="button" data-filter="clear">Без задач</button>
           </div>
         </div>
         <div class="entity-list" id="entities" aria-live="polite"></div>
@@ -100,6 +99,7 @@
       <label class="key-label" for="edit-entity-type">Тип<select id="edit-entity-type"><option value="family">Семья</option><option value="nucleus">Отводок</option></select></label>
       <label class="key-label" for="edit-entity-number">Номер<input id="edit-entity-number" type="number" min="1" max="9999" inputmode="numeric"></label>
       <label class="key-label" for="edit-queen-year">Год матки<input id="edit-queen-year" type="number" min="1900" max="2100" inputmode="numeric"></label>
+      <label class="key-label" for="edit-queen-status">Состояние матки<input id="edit-queen-status" type="text"></label>
       <label class="key-label" for="edit-strength">Сила семьи<input id="edit-strength" type="text"></label>
       <label class="key-label" for="edit-feed">Корм<input id="edit-feed" type="text"></label>
       <label class="key-label" for="edit-frame-count">Количество рамок<input id="edit-frame-count" type="number" min="1" max="100" inputmode="numeric"></label>
@@ -116,6 +116,8 @@
     </form>
   </dialog>
   <div class="toast" id="toast" role="status"></div>
+  <script src="journal-core.js" defer></script>
+  <script src="journal-features.js" defer></script>
   <script src="app.js" defer></script>
 </body>
 </html>

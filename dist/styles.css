@@ -12,3 +12,20 @@
 .entity-head{grid-template-columns:minmax(0,1fr) auto}.entity-details{padding-left:15px}@media(max-width:620px){.entity-details{padding-left:12px}}
 
 .apiary-tabs{overflow-x:auto;scrollbar-width:thin}.tab{flex:0 0 auto}.simple-entry{overflow:hidden;border:1px solid #9da8a0;border-radius:14px;background:var(--paper);box-shadow:var(--shadow)}.simple-entry details{padding:0 14px}.simple-entry summary{min-height:62px;display:flex;align-items:center;justify-content:space-between;gap:10px;cursor:pointer;list-style:none;font-size:18px;font-weight:700}.simple-entry summary::-webkit-details-marker{display:none}.simple-entry summary:after{content:"⌄";color:var(--muted);font-size:22px}.simple-entry details[open] summary:after{transform:rotate(180deg)}.simple-entry summary time{margin-left:auto;color:var(--muted);font-size:13px;font-weight:400;white-space:nowrap}.simple-entry-text{padding:4px 0 10px;white-space:pre-wrap;overflow-wrap:anywhere;font-size:17px;line-height:1.5}
+
+/* Soft journal assessment colors; dark text retains contrast. */
+.entity-card.health-good{background:#edf7ee;border-color:#73987a}
+.entity-card.health-attention{background:#fff7dd;border-color:#b59a4d}
+.entity-card.health-critical{background:#fceeee;border-color:#b87979}
+.entity-card.health-unknown{background:#fff}
+.health-label{font-size:14px;font-weight:700;color:#25392b}
+.health-explanation{font-size:16px;line-height:1.5;white-space:pre-wrap;margin:10px 0}
+.command-card{padding:16px;border:1px solid #a7b2a9;border-radius:14px;background:#f7f8f5;overflow-wrap:anywhere}
+.command-card p{white-space:pre-wrap;margin:9px 0;font-size:17px}
+.command-actions{display:flex;flex-wrap:wrap;gap:9px}
+.command-actions button{flex:1;min-width:110px;min-height:48px;margin:0;padding:8px 12px}
+.simple-entry .history-tools{padding-bottom:12px}
+button:disabled{opacity:.55;cursor:wait}
+
+.entity-summary{display:block;-webkit-line-clamp:unset;overflow:visible}
+@media(max-width:620px){.apiary-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;overflow:visible}.apiary-tabs .tab{min-width:0;padding:7px 3px;font-size:17px}}
