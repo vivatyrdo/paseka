@@ -29,3 +29,14 @@ button:disabled{opacity:.55;cursor:wait}
 
 .entity-summary{display:block;-webkit-line-clamp:unset;overflow:visible}
 @media(max-width:620px){.apiary-tabs{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:0;overflow:visible}.apiary-tabs .tab{min-width:0;padding:7px 3px;font-size:17px}}
+:root .task-filters{align-items:center}
+.task-filters .entity-count{margin-left:auto;padding:6px 4px;font-size:18px;font-weight:700;font-variant-numeric:tabular-nums;color:var(--ink);border:0;background:none}
+.task-filters [hidden]{display:none}
+.archive-button{min-height:46px;margin-top:16px;padding:9px 17px;border:1px solid #89958c;border-radius:10px;background:var(--paper);color:var(--ink);font:700 17px Arial;cursor:pointer}
+#archive-dialog{width:min(720px,calc(100vw - 24px));max-height:85dvh;overflow:auto}
+#archive-dialog .dialog-head{align-items:flex-start;gap:12px}
+#archive-dialog .settings-close{flex-shrink:0}
+.archive-year h3{font-size:20px;margin:20px 0 12px}
+.archive-year .history-item{padding-bottom:12px}
+.archive-text{white-space:pre-wrap;overflow-wrap:anywhere}
+.history-empty{color:var(--muted);font-size:16px;margin:8px 0}

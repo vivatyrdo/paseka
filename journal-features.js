@@ -39,6 +39,47 @@ async function migrateJournal(){
   });
   for(const [key,value] of metadata)if(!journalMeta.has(key))journalMeta.set(key,value);
 }
+
+// Archive only finished family/nucleus messages. Keep a small, independent state
+// record so reading the archive is never necessary for facts or unfinished work.
+async function archivePreviousYears(){
+  const now=Date.now(),boundary=new Date(new Date(now).getFullYear(),0,1).getTime();
+  return journalTransaction(notes=>{
+    const puts=[],deletes=[];
+    for(const type of ['family','nucleus'])for(const group of entityGroups(notes,type)){
+      const old=group.notes.filter(n=>n.recordKind!=='entity-state'&&n.status==='done'&&n.createdAt<boundary);
+      if(!old.length)continue;
+      const states=group.notes.filter(n=>n.recordKind==='entity-state');
+      const sources=[...old,...states].sort((a,b)=>b.createdAt-a.createdAt);
+      const snapshot=J.currentSnapshot(sources),tasks=taskRows(sources,type,group.family).filter(t=>!t.closed);
+      const state=states[0]||{id:crypto.randomUUID()};
+      puts.push({...state,recordKind:'entity-state',section:type,entityType:type,family:group.family,
+        createdAt:boundary-1,updatedAt:now,status:'done',transcript:'',audio:null,
+        factDates:snapshot.sources,lastInspection:snapshot.lastInspection,
+        analysis:{...snapshot.facts,manual_cleared:['queen_year','queen_status','feed','strength','frame_count','condition'].filter(key=>snapshot.facts[key]==null),tasks:tasks.map(t=>t.text),observations:[],completed_tasks:[]},
+        taskIds:tasks.map(t=>t.id)});
+      for(const row of old)puts.push({...row,archivedAt:now,archiveYear:new Date(row.createdAt).getFullYear()});
+      deletes.push(...states.slice(1).map(n=>n.id));
+    }
+    return{puts,deletes};
+  });
+}
+
+function setEntityCount(count,type){
+  const node=$('entity-count');node.textContent=String(count);
+  node.setAttribute('aria-label',`${{family:'Семей',nucleus:'Отводков',notes:'Заметок',treatment:'Обработок'}[type]}: ${count}`);
+}
+
+async function openArchive(key){
+  const [type,number]=key.split('|'),entity={type,family:number==='unknown'?null:Number(number)};
+  const rows=notesForEntity(await allNotes(),entity).filter(n=>n.archivedAt);
+  $('archive-title').textContent=`Архив · ${entityTitle(type,entity.family)}`;
+  const years=[...new Set(rows.map(n=>n.archiveYear))].sort((a,b)=>b-a);
+  $('archive-entries').innerHTML=years.map(year=>`<section class="archive-year"><h3>${year}</h3><div class="history-list">${rows.filter(n=>n.archiveYear===year).map(n=>`<div class="history-item"><time class="history-date">${fmtDateTime(n.createdAt)}</time><div class="archive-text">${escapeHtml(n.transcript||'Аудиозапись')}</div>${n.audio?`<button class="history-audio" type="button" data-play="${escapeHtml(n.id)}">▶ Аудиозапись</button>`:''}</div>`).join('')}</div></section>`).join('')||'<p class="history-empty">Архив пока пуст.</p>';
+  $('archive-entries').querySelectorAll('[data-play]').forEach(button=>button.onclick=()=>playAudio(button.dataset.play));
+  $('archive-dialog').showModal();
+}
+
 async function modelJson(system,data,maxTokens=2500){
   const res=await groq('/chat/completions',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({temperature:0,max_completion_tokens:maxTokens,messages:[{role:'system',content:system},{role:'user',content:JSON.stringify(data)}]})});
   const response=await res.json();

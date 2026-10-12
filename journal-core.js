@@ -80,7 +80,7 @@
     const v=value.trim();return map[v.toLowerCase()]||v||null;
   }
   function currentSnapshot(notes){
-    const rows=[...notes].filter(n=>n.status!=='review'&&!isCommand(n)).sort((a,b)=>b.createdAt-a.createdAt||b.id.localeCompare(a.id));
+    const rows=[...notes].filter(n=>!n.archivedAt&&n.status!=='review'&&!isCommand(n)).sort((a,b)=>b.createdAt-a.createdAt||b.id.localeCompare(a.id));
     const result={facts:{},sources:{},lastInspection:null};
     for(const field of fields){
       const sources=field==='condition'?rows.filter(n=>n.analysis).slice(0,1):rows;
@@ -97,7 +97,8 @@
         }
       }
     }
-    result.lastInspection=rows.find(n=>n.analysis)?.createdAt||null;
+    const latest=rows.find(n=>n.analysis);
+    result.lastInspection=latest?.lastInspection||latest?.createdAt||null;
     return result;
   }
   function assessmentInput(snapshot){
